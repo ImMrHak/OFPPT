@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Mon Dossier Personnelles | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "ADMIN" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+@{
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- main wrapper start -->
+    <div class="horizontal-main-wrapper">
+        @Html.Partial("_Header")
+        <!-- main content area start -->
+        <div class="main-content-inner">
+            <div class="container">
+                <!-- left align tab start -->
+                <div class="row">
+                    <div class="card" style="width:100%;">
+                        <div class="card-body" style="width:100%;">
+                            <div class="d-md-flex" style="width:100%;">
+                                <div class="nav flex-column nav-pills mr-4 mb-3 mb-sm-0" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Filières</a>
+                                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Pièces</a>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent" style="width:100%;">
+                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="cin">CIN :</label>
+                                                <input type="text" class="form-control" id="cin" name="cin" value="@Session["CIN"]" disabled />
+                                                <label class="nom">Nom :</label>
+                                                <input type="text" class="form-control" id="nom" name="nom" value="@Session["Nom"]" disabled />
+                                                <label class="prenom">Prénom :</label>
+                                                <input type="text" class="form-control" id="prenom" name="prenom" value="@Session["Prenom"]" disabled />
+                                                <label class="usernvscolarite">Niveau Scolarité :</label>
+                                                <input type="text" class="form-control" id="usernvscolarite" name="usernvscolarite" value="@ViewBag.scolarite" disabled />
+                                                <label class="usercategorie">Catégorie :</label>
+                                                <input type="text" class="form-control" id="usercategorie" name="usercategorie" value="@ViewBag.categorie" disabled />
+                                                <label class="userbranche">Branche :</label>
+                                                <input type="text" class="form-control" id="userbranche" name="userbranche" value="@ViewBag.branche" disabled />
+                                            </div>
+                                            <div class="col" style="width:100%">
+                                                <label class="useretablissement">Etablissement :</label>
+                                                <input type="text" class="form-control" id="useretablissement" name="useretablissement" value="@ViewBag.etablissement" disabled />
+                                                <label class="usertypeformation">Type de Formation :</label>
+                                                <input type="text" class="form-control" id="usertypeformation" name="usertypeformation" value="@ViewBag.typeformation" disabled />
+                                                <label class="usernvformation">Niveau de Formation :</label>
+                                                <input type="text" class="form-control" id="usernvformation" name="usernvformation" value="@ViewBag.nvformation" disabled />
+                                                <label class="userfirstchoice">1er Choix :</label>
+                                                <input type="text" class="form-control" id="userfirstchoice" name="userfirstchoice" value="@ViewBag.FirstChoiceName" disabled />
+                                                <label class="usersecondchoice">2ème Choix :</label>
+                                                <input type="text" class="form-control" id="usersecondchoice" name="usersecondchoice" value="@ViewBag.SecondChoiceName" disabled />
+                                                <label class="userthirdchoice">3ème Choix :</label>
+                                                <input type="text" class="form-control" id="userthirdchoice" name="userthirdchoice" value="@ViewBag.ThirdChoiceName" disabled />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="filecompleted">Dossier complet :</label>
+                                                <input type="text" class="form-control" id="filecompleted" name="filecompleted" value="@ViewBag.Completed" disabled />
+                                            </div>
+                                            <div class="col">
+                                                <label class="acceptedchoice">Mon choix accepté :</label>
+                                                <input type="text" class="form-control" id="acceptedchoice" name="acceptedchoice" value="@ViewBag.AcceptedChoice" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                        <strong>
+                                            <i style=" font-style italic; line-height 14px;background-color #3a87ad;margin-bottom 1em; color #fff;">
+                                                -Les candidats exonérés des frais de traitement de dossier sont priés de se présenter physiquement au sein de l’établissement souhaité afin de finaliser leur processus de candidature.
+                                            </i>
+                                            <br />
+                                            <i style=" font-style italic; line-height 14px;background-color #3a87ad;margin-bottom 1em; color #fff;">
+                                                -Les candidats à besoins spécifiques qui se présentent aux centres mixtes sont dispensés des frais de traitement de dossier,
+                                            </i>
+                                            <br />
+                                            <i style=" font-style italic; line-height 14px;background-color #3a87ad;margin-bottom 1em; color #fff;">
+                                                -Les candidates des centres de jeunes filles sont dispensées des frais de traitement de dossier et d'inscription,
+                                            </i>
+                                            <br />
+                                            <i style=" font-style italic; line-height 14px;background-color #3a87ad;margin-bottom 1em; color #fff;">
+                                                -Les candidats étrangers inscrits via l'agence marocaine de coopération internationale sont dispensés des frais de traitement de dossier,
+                                            </i>
+                                            <br />
+                                            <i style=" font-style italic; line-height 14px;background-color #3a87ad;margin-bottom 1em; color #fff;">
+                                                -Les jeunes marocains résidants à l'étranger (MRE) sont dispensés des frais de traitement de dossier et d'inscription en formation.
+                                            </i>
+                                        </strong>
+                                        <hr />
+                                        <p id="trucmanquant">
+                                            <strong>-Les pièces manquantes a votre dossier :</strong><br />
+                                            - CNI (Obligatoire)<br />
+                                            - photo (Obligatoire)<br />
+                                            - Baccalaureat (Obligatoire)<br />
+                                            - Relevé des notes (Obligatoire)<br />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- left align tab end -->
+            </div>
+        </div>
+        <!-- main content area end -->
+        @Html.Partial("_Footer")
+    </div>
+    <!--Page Related Scripts-->
+    <script src="~/Assets/custom/studentnationaltfile/js/script.js"></script>
+}

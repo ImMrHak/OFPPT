@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Mes Informations Personnelles | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "ADMIN" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+@{
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- main wrapper start -->
+    <div class="horizontal-main-wrapper">
+        @Html.Partial("_Header")
+        <!-- main content area start -->
+        <div class="main-content-inner">
+            <div class="container">
+                <!-- left align tab start -->
+                <div class="row">
+                    <div class="card" style="width:100%;">
+                        <div class="card-body" style="width:100%;">
+                            <div class="d-md-flex" style="width:100%;">
+                                <div class="nav flex-column nav-pills mr-4 mb-3 mb-sm-0" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Infos Personnelles</a>
+                                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Filieres</a>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent" style="width:100%;">
+                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                        <form action="" method="POST">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="cin">CIN : *</label>
+                                                    <input type="text" class="form-control" id="cin" name="cin" value="@Session["CIN"]" disabled />
+                                                    <label class="nom">Nom : *</label>
+                                                    <input type="text" class="form-control" id="nom" name="nom" value="@ViewBag.Nom" disabled />
+                                                    <label class="prenom">Prénom : *</label>
+                                                    <input type="text" class="form-control" id="prenom" name="prenom" value="@ViewBag.Prenom" disabled />
+                                                    <label class="nompere">Nom Père : *</label>
+                                                    <input type="text" class="form-control" id="nompere" name="nompere" value="@ViewBag.NomPere" disabled />
+                                                    <label class="prenompere">Prénom Père : *</label>
+                                                    <input type="text" class="form-control" id="prenompere" name="prenompere" value="@ViewBag.PrenomPere" disabled />
+                                                    <label class="dtnaisse">Date De Naissance : *</label>
+                                                    <input type="text" class="form-control" id="dtnaisse" name="dtnaisse" value="@ViewBag.DateNaissance" disabled />
+                                                    <label class="cne">CNE : *</label>
+                                                    <input type="text" class="form-control" id="cne" name="cne" value="@ViewBag.CNE" disabled />
+                                                    <label class="adresse">Adresse : *</label>
+                                                    <input type="text" class="form-control" id="adresse" name="adresse" value="@ViewBag.Adresse" disabled />
+                                                    <label class="vresid">Ville de Résidence : *</label>
+                                                    <input type="text" class="form-control" id="vresid" name="vresid" value="@ViewBag.VilleEtude" disabled />
+                                                </div>
+                                                <div class="col" style="width:100%">
+                                                    <label class="genre">Genre : *</label>
+                                                    <input type="text" class="form-control" id="genre" name="genre" value="@ViewBag.Genre" disabled />
+                                                    <label class="nomar"> : الاسم العائلي *</label>
+                                                    <input type="text" class="form-control" id="nomar" name="nomar" value="@ViewBag.NomAr" disabled />
+                                                    <label class="prenomar">: الاسم الشخصي *</label>
+                                                    <input type="text" class="form-control" id="prenomar" name="prenomar" value="@ViewBag.PrenomAr" disabled />
+                                                    <label class="nommere">Nom Mère : *</label>
+                                                    <input type="text" class="form-control" id="nommere" name="nommere" value="@ViewBag.NomMere" disabled />
+                                                    <label class="prenommere">Prenom Mère : *</label>
+                                                    <input type="text" class="form-control" id="prenommere" name="prenommere" value="@ViewBag.PrenomMere" disabled />
+                                                    <label class="nationalite">Nationalité : *</label>
+                                                    <input type="text" class="form-control" id="nationalite" name="nationalite" value="@ViewBag.Nationalite" disabled />
+                                                    <label class="tel">Telephone : *</label>
+                                                    <input type="text" class="form-control" id="tel" name="tel" value="@ViewBag.Tel" disabled />
+                                                    <label class="email">Email: *</label>
+                                                    <input type="email" class="form-control" id="email" name="email" value="@ViewBag.Email" disabled />
+                                                    <label class="vnaiss">Ville de Naissance : *</label>
+                                                    <input type="text" class="form-control" id="vnaiss" name="vnaiss" value="@ViewBag.VilleNaissance" disabled />
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <button type="button" onclick="UnlockToEdit()" id="btnmodif" class="btn btn-primary mb-3" style="float:right;width:100%;">Modifier Mes Informations</button>
+                                            <button type="button" onclick="ValidateEdit()" id="btnmodifuser" class="btn btn-primary mb-3" style="float:right;width:100%;display:none">Modifier Mes Informations</button>
+                                        </form>
+                                        <br />
+                                        <div class="row">
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                        <label class="ccategorie">Catégorie : *</label>
+                                        <input type="text" class="form-control" id="ccategorie" name="ccategorie" value="@ViewBag.Categorie" disabled />
+                                        <label class="sscolarite">Scolarité : *</label>
+                                        <input type="text" class="form-control" id="sscolarite" name="sscolarite" value="@ViewBag.Scolarite" disabled />
+                                        <label class="bbranche">Branche : *</label>
+                                        <input type="text" class="form-control" id="bbranche" name="bbranche" value="@ViewBag.Branche" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- left align tab end -->
+            </div>
+        </div>
+        <!-- main content area end -->
+        @Html.Partial("_Footer")
+    </div>
+    <!--Page Related Scripts-->
+    <script src="~/Assets/custom/aboutme/js/script.js"></script>
+}

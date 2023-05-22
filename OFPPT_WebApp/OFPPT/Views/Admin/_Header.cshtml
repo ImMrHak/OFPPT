@@ -1,0 +1,82 @@
+﻿<!-- main header area start -->
+<div class="mainheader-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <div class="logo">
+                    <a href="#"><img src="~/Assets/custom/img/OFPPT_L.png" alt="OFPPT"></a>
+                </div>
+            </div>
+            <!-- profile info & task notification -->
+            <div class="col-md-9 clearfix text-right">
+                <div class="d-md-inline-block d-block mr-md-4">
+                    <ul class="notification-area">
+                        <li id="full-view"><i class="ti-fullscreen"></i></li>
+                        <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
+                        <li class="dropdown">
+                            <i class="fa fa-envelope-o dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span>@ViewBag.TotalHelp</span></i>
+                            <div class="dropdown-menu notify-box nt-enveloper-box" x-placement="bottom-start" style="position: absolute; transform: translate3d(-251px, 26px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <span class="notify-title">Vous Avez @ViewBag.TotalHelp Nouvelles Notifications <a onclick='window.location = "@Url.Action("ViewAllReports", "Admin")";' href="#">View All</a></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix d-md-inline-block d-block">
+                    <div class="user-profile m-0">
+                        <img class="avatar user-thumb" src="~/Assets/images/author/avatar.png" alt="avatar">
+                        <h4 class="user-name dropdown-toggle" data-toggle="dropdown" id="username">@ViewBag.NomPrenom<i class="fa fa-angle-down"></i></h4>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#ChangePassword" href="#">Paramètres</a>
+                            <a class="dropdown-item" onclick='window.location = "@Url.Action("Disconnect", "Student")";' href="#">Se Déconnecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- main header area end -->
+<!-- header area start -->
+<div class="header-area header-bottom">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-9  d-none d-lg-block">
+                <div class="horizontal-menu">
+                    <nav>
+                        <ul id="nav_menu">
+                            <li>
+                                <a onclick='window.location = "@Url.Action("Home", "Admin")";' href="#"><i class="ti-home"></i><span>Acceuil</span></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ti-plus"></i><span>Ajouts</span></a>
+                                <ul class="submenu">
+                                    <li><a data-toggle="modal" data-target="#AjoutDirect" href="#">Directeur</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutEpreuves" href="#">Epreuves</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutVille" href="#">Ville</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutEtablissement" href="#">Etablissement</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutnvFormation" href="#">Niveaux Formation</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutCategorie" href="#">Categorie</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutBranche" href="#">Branche</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjouttyFormation" href="#">Type Formation</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutScolarite" href="#">Scolarite</a></li>
+                                    <li><a data-toggle="modal" data-target="#AjoutChoix" href="#">Choix</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ti-pencil"></i><span>Modifications</span></a>
+                                <ul class="submenu">
+                                    <li><a onclick='window.location = "@Url.Action("ViewAllDirecteur", "Admin")";' href="#">Directeur</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- mobile_menu -->
+            <div class="col-12 d-block d-lg-none">
+                <div id="mobile_menu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- header area end -->

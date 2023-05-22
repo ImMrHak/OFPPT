@@ -1,0 +1,313 @@
+﻿@model IEnumerable<OFPPT.Models.FillChoice_Admin>
+@using OFPPT.Controllers
+@{ 
+    AccountController AC = new AccountController();
+}
+@{
+    ViewBag.Title = "Acceuil Administrateur | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "STUDENT" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- main wrapper start -->
+<div class="horizontal-main-wrapper">
+    @Html.Partial("_Header")
+    <!-- main content area start -->
+    <div class="main-content-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mt-5 mb-3">
+                    <div class="card">
+                        <div class="seo-fact sbg3">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="ti-alert"></i>Total Réclamations </div>
+                                <h2 id="nbMessage">@ViewBag.TotalHelp</h2>
+                            </div>
+                            <canvas id="seolinechart2" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-md-5 mb-3">
+                    <div class="card">
+                        <div class="seo-fact sbg1">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="ti-user"></i>Total Directeurs</div>
+                                <h2 id="nbEtudints">@ViewBag.TotalDirecteur</h2>
+                            </div>
+                            <canvas id="seolinechart1" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main content area end -->
+    @Html.Partial("_Footer")
+</div>
+<!-- Modal Directeur Valider -->
+<div class="modal fade" id="AjoutDirect">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Un Directeur</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="cindirect">CIN :</label>
+                    <input type="text" class="form-control" id="cindirect" name="cindirect" />
+                    <label class="passdirect">Mot De Passe :</label>
+                    <input type="password" class="form-control" id="passdirect" name="passdirect" />
+                    <label class="nomdirect">Nom :</label>
+                    <input type="text" class="form-control" id="nomdirect" name="nomdirect" />
+                    <label class="prenomdirect">Prénom :</label>
+                    <input type="text" class="form-control" id="prenomdirect" name="prenomdirect" />
+                    <label class="emaildirect">Email :</label>
+                    <input type="email" class="form-control" id="emaildirect" name="emaildirect" />
+                    <label class="etablissementdirect">Entrez le nom de l'établissement :</label>
+                    <select class="form-control" id="etablissementdirect" name="etablissementdirect" style="width:100%;">
+                        <option value="0" selected>Veuillez choisir l'établissement</option>
+                        @foreach (var items in AC.GetAllEtabl())
+                        {
+                            <option value="@Html.DisplayFor(modelItem => items.e_ID)">@Html.DisplayFor(modelItem => items.e_etablissement)</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddDirect()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Directeur-->
+<!-- Modal Epreuve Valider-->
+<div class="modal fade" id="AjoutEpreuves">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Une Epreuve</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="epreuvenom">Entrez le nom de l'épreuve :</label>
+                    <input type="text" class="form-control" id="epreuvenom" name="epreuvenom" />
+                    <label class="datedebutepreuve">Date debut de l'épreuve :</label>
+                    <input type="date" class="form-control" id="datedebutepreuve" name="datedebutepreuve" />
+                    <label class="datefinepreuve">Date fin de l'épreuve :</label>
+                    <input type="date" class="form-control" id="datefinepreuve" name="datefinepreuve" />
+                    <label class="choixbranche">Entrez le nom de la branche :</label>
+                    <select class="form-control" id="choixbranche" name="choixbranche" style="width:100%;">
+                        <option value="0" selected>Veuillez choisir la branche</option>
+                        @foreach (var items in AC.GetAllChoix())
+                        {
+                            <option value="@Html.DisplayFor(modelItem => items.ch_ID)">@Html.DisplayFor(modelItem => items.ch_choix)</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddEpreuve()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Epreuve -->
+<!-- Modal Ville Valider-->
+<div class="modal fade" id="AjoutVille">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Une Ville</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="villee">Entrez le nom de la ville :</label>
+                    <input type="text" class="form-control" id="villee" name="villee" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddVille()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Ville-->
+<!-- Modal Etablissement Valider-->
+<div class="modal fade" id="AjoutEtablissement">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Un Etablissement</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="etab">Entrez le nom de l'établissement :</label>
+                    <input type="text" class="form-control" id="etab" name="etab" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddEtablissement()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Etablissement-->
+<!-- Modal Niveaux Formation Valider-->
+<div class="modal fade" id="AjoutnvFormation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Un Niveau De Formation</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="nvforma">Entrez le niveau de formation :</label>
+                    <input type="text" class="form-control" id="nvforma" name="nvforma" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AdddNvFormation()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Niveaux Formation-->
+<!-- Modal Categorie Valider-->
+<div class="modal fade" id="AjoutCategorie">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Une Catégorie</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="categoriee">Entrez une catégorie :</label>
+                    <input type="text" class="form-control" id="categoriee" name="categoriee" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddCategorie()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Categorie-->
+<!-- Modal Branche Valider-->
+<div class="modal fade" id="AjoutBranche">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Une Branche</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="branchee">Entrez une branche :</label>
+                    <input type="text" class="form-control" id="branchee" name="branchee" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddBranche()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Branche-->
+<!-- Modal Type Formation Valider-->
+<div class="modal fade" id="AjouttyFormation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Un Type De Formation</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="tyformation">Entrez un type de formation :</label>
+                    <input type="text" class="form-control" id="tyformation" name="tyformation" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddTypeFormation()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Type Formation-->
+<!-- Modal Scolarite Valider-->
+<div class="modal fade" id="AjoutScolarite">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Une Scolarité</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="scolarite">Entrez une scolarité :</label>
+                    <input type="text" class="form-control" id="scolarite" name="scolarite" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddScolarite()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Scolarite-->
+<!-- Modal Choix-->
+<div class="modal fade" id="AjoutChoix">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter Un Choix</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="choix">Entrez le choix :</label>
+                    <input type="text" class="form-control" id="choix" name="choix" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="AddChoix()" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Choix-->
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/adminadder/js/script.js"></script>
+<script>
+    document.querySelector("#nav_menu").childNodes[1].setAttribute("class", "active");
+</script>

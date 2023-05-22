@@ -1,0 +1,253 @@
+﻿@model IEnumerable<OFPPT.Models.StudentModif_Add_Del>
+@using OFPPT.Controllers
+@{
+    DirecteurController DC = new DirecteurController();
+    }
+@{
+    ViewBag.Title = "Etudiants | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "STUDENT" || Session["Role"].ToString() == "ADMIN")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- main wrapper start -->
+<div class="horizontal-main-wrapper">
+    @Html.Partial("_Header")
+    <!-- main content area start -->
+    <div class="main-content-inner">
+        <div class="container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            CIN
+                        </th>
+                        <th>
+                            CNE
+                        </th>
+                        <th>
+                            Adresse-Email
+                        </th>
+                        <th>
+                            Nom
+                        </th>
+                        <th>
+                            Prenom
+                        </th>
+                        <th>
+                            Numero De Telephone
+                        </th>
+                        <th>
+                            Etablissement
+                        </th>
+                        <th>
+                            1er Choix
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        try
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.cin)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.cne)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.prenom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.numtel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.etablissement)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ch_choix)
+                                    </td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#modifierstudent" class="btn btn-secondary"><i class="ti-pencil"></i></button>
+                                        <button type="button" data-toggle="modal" data-target="#validatestudent" class="btn btn-success"><i class="ti-check"></i></button>
+                                        <button type="button" data-toggle="modal" data-target="#deleteuser" class="btn btn-danger"><i class="ti-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <!-- Modal Supprimer -->
+                                    <div class="modal fade" id="deleteuser" tabindex="-1" role="dialog" aria-labelledby="deleteuser" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment supprimer ce etudiants ?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <input type="text" style="display:none;" name="cin" id="cin" value="@item.cin" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Quitter</button>
+                                                    <button type="button" onclick="DelStudent()" class="btn btn-danger">Supprimer</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Supprimer -->
+
+                                    <!-- Modal Valider -->
+                                    <div class="modal fade" id="validatestudent" tabindex="-1" role="dialog" aria-labelledby="validatestudent" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Validation du compte </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <input type="text" style="display:none;" name="cin" id="cin" value="@item.cin" />
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="" method="POST">
+                                                        <label class="choixvalide">Entrez le choix :</label>
+                                                        <select class="form-control" id="choixvalide" name="choixvalide">
+                                                            <option value="0" selected>Veuillez choisir le choix valide de l'etudiant</option>
+                                                            @{
+                                                                try
+                                                                {
+                                                                    foreach (var items in DC.GetAllChoix())
+                                                                    {
+                                                                        <option value="@Html.DisplayFor(modelItem => items.ch_ID)">@Html.DisplayFor(modelItem => items.ch_choix)</option>
+                                                                    }
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+
+                                                                }
+                                                            }
+                                                        </select>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Quitter</button>
+                                                    <button type="button" onclick="ValidateStudent()" class="btn btn-success">Valider Ce Compte</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Valider -->
+
+                                    <!-- Modal Modifier -->
+                                    <div class="modal fade" id="modifierstudent" tabindex="-1" role="dialog" aria-labelledby="modifierstudent" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <form action="" method="POST">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Modifier l'etudiant</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" style="display:none;" name="cin" id="cin" value="@item.cin" />
+                                                        <label class="genreee">Selectionner le genre :</label>
+                                                        <select class="form-control" id="genreee" name="genreee" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir votre genre</option>
+                                                            <option value="1">Masculin</option>
+                                                            <option value="2">Féminin</option>
+                                                        </select>
+                                                        <br />
+                                                        <label class="natiooo">Selectionner la nationalite :</label>
+                                                        <select class="form-control" id="natiooo" name="natiooo" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir votre nationalite</option>
+                                                            <option value="1">Marocain</option>
+                                                            <option value="2">Étranger</option>
+                                                        </select>
+                                                        <br />
+                                                        <label class="dtnaissss">entrez la date de l'etudiant :</label>
+                                                        <input type="date" class="form-control" name="dtnaissss" id="dtnaissss" />
+                                                        <br />
+                                                        <label class="cneee">Entrez le CNE  :</label>
+                                                        <input type="text" class="form-control" name="cneee" id="cneee" />
+                                                        <br />
+                                                        <label class="categorieee">Choisissez la categorie :</label>
+                                                        <select class="form-control" id="categorieee" name="categorieee" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir la scolarite</option>
+                                                            @foreach (var items in DC.GetAllCategorie())
+                                                            {
+                                                                <option value="@Html.DisplayFor(modelItem => items.c_ID)">@Html.DisplayFor(modelItem => items.c_categorie)</option>
+                                                            }
+                                                        </select>
+                                                        <br />
+                                                        <label class="scolariteee">Choisissez Scolarite :</label>
+                                                        <select class="form-control" id="scolariteee" name="scolariteee" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir la scolarite</option>
+                                                            @foreach (var items in DC.GetAllScolarite())
+                                                            {
+                                                                <option value="@Html.DisplayFor(modelItem => items.s_ID)">@Html.DisplayFor(modelItem => items.s_scolarite)</option>
+                                                            }
+                                                        </select>
+                                                        <br />
+                                                        <label class="brancheee">Choisissez la branche :</label>
+                                                        <select class="form-control" id="brancheee" name="brancheee" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir la branche</option>
+                                                            @foreach (var items in DC.GetAllBranche())
+                                                            {
+                                                                <option value="@Html.DisplayFor(modelItem => items.b_ID)">@Html.DisplayFor(modelItem => items.b_branche)</option>
+                                                            }
+                                                        </select>
+                                                        <br />
+                                                        <label class="etablll">Choisissez l'etablissement :</label>
+                                                        <select class="form-control" id="etablll" name="etablll" style="width:100%;">
+                                                            <option value="0" selected>Veuillez choisir l'etablissement</option>
+                                                            @foreach (var items in DC.GetAllEtabl())
+                                                            {
+                                                                <option value="@Html.DisplayFor(modelItem => items.e_ID)">@Html.DisplayFor(modelItem => items.e_etablissement)</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Quitter</button>
+                                                        <button type="button" onclick="EditStudent()" class="btn btn-success">Valider Modification</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Modifier -->
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- main content area end -->
+    @Html.Partial("_Footer")
+</div>
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/directeurallstudent/js/script.js"></script>

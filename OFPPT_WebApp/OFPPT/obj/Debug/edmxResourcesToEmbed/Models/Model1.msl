@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OFPPTModelStoreContainer" CdmEntityContainer="OFPPTEntities">
+    <EntitySetMapping Name="Choixes">
+      <EntityTypeMapping TypeName="OFPPTModel.Choix">
+        <MappingFragment StoreEntitySet="Choix">
+          <ScalarProperty Name="ch_ID" ColumnName="ch_ID" />
+          <ScalarProperty Name="ch_choix" ColumnName="ch_choix" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

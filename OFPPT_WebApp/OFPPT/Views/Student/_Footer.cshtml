@@ -1,0 +1,33 @@
+﻿<!-- footer area start-->
+<footer>
+    <div class="footer-area">
+        <p>© Copyright 2022.All right reserved. Created By <a href="">Mohamed Hakkou, Saad Qouhafa</a></p>
+    </div>
+</footer>
+<!-- footer area end-->
+<!-- Modal Change Password-->
+<div class="modal fade" id="ChangePassword">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Changer votre mot de passe</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="" method="POST">
+                <div class="modal-body">
+                    <label class="cin">CIN :</label>
+                    <input type="text" class="form-control" id="cin" name="cin" value="@Session["CIN"]" disabled/>
+                    <label class="pass">Mot de passe :</label>
+                    <input type="password" class="form-control" id="pass" name="pass" required/>
+                    <label class="repass">Confirmer le mot de passe :</label>
+                    <input type="password" class="form-control" id="repass" name="repass" required/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="EditUser()" class="btn btn-success">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/custom/layoutscripts/js/scripts.js"></script>

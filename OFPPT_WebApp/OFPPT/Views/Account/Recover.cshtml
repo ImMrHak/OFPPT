@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Récuperation Mot Passe | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+}
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- login area start -->
+<div class="login-area">
+    <div class="container">
+        <div class="login-box ptb--100">
+            <form action="" method="POST">
+                <div class="login-form-head">
+                    <h4>Mot de passe oublié ?</h4>
+                </div>
+                <div class="login-form-body">
+                    <div class="form-gp">
+                        <label for="cin">CIN</label>
+                        <input type="text" id="cin" name="cin" required>
+                        <i class="ti-id-badge"></i>
+                    </div>
+                    <div class="submit-btn-area mt-5">
+                        <button id="form_submit" onclick="Checker()" type="button">Récuperer<i class="ti-arrow-right"></i></button>
+                    </div>
+                    <div class="form-footer text-center mt-5">
+                        <p class="text-muted">Vous vous rappelez de votre mot de passe? <a href="#" onclick='window.location = "@Url.Action("SignIn", "Account")";'>Connecter-Vous</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- login area end -->
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/recover/js/script.js"></script>

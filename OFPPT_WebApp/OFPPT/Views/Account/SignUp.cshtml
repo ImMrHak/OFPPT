@@ -1,0 +1,260 @@
+﻿@using OFPPT.Controllers
+@{ 
+    AccountController AC = new AccountController();
+}
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/MainLayout.cshtml";
+}
+<link href="~/Assets/custom/usersignup/css/style.css" rel="stylesheet" />
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+            <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                <h2 id="heading">Créer votre compte</h2>
+                <p>Remplissez tous les champs du formulaire pour passer à l'étape suivante</p>
+                <form action="SignUp" method="POST" id="msform">
+                    <!-- progressbar -->
+                    <ul id="progressbar">
+                        <li class="active" id="account"><strong>Compte</strong></li>
+                        <li id="personal"><strong>Informations</strong></li>
+                        <li id="personal"><strong>Votre Choix</strong></li>
+                        <li id="confirm"><strong>Terminer</strong></li>
+                    </ul>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> <br> <!-- fieldsets -->
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Informations du compte:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Etapes 1 - 4</h2>
+                                </div>
+                            </div>
+                            <label class="cin">CIN : *</label>
+                            <input type="text" id="cin" name="cin" required/>
+                            <label class="cne">CNE / MASSAR : *</label>
+                            <input type="text" id="cne" name="cne" required/>
+                            <label class="dtnaiss">Date de naissance : *</label>
+                            <input type="date" id="dtnaiss" name="dtnaiss" required/>
+                            <label class="email">Email : *</label>
+                            <input type="email" id="email" name="email" required/>
+                        </div>
+                        <input type="button" onclick="Step1()" class="action-button" value="Suivant" />
+                        <input style="display:none;" type="button" id="step1" name="next" class="next action-button" value="Suivant" />
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h2 class="fs-title">Informations Personnelles :</h2>
+                                </div>
+                                <div class="col-4">
+                                    <h2 class="steps">Step 2 - 4</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="nom">Nom : *</label>
+                                    <input type="text" id="nom" name="nom" required/>
+                                    <label class="prenom">Prénom : *</label>
+                                    <input type="text" id="prenom" name="prenom" required/>
+                                </div>
+                                <div class="col">
+                                    <label class="nomar">: الاسم العائلي *</label>
+                                    <input type="text" id="nomar" name="nomar" required/>
+                                    <label class="prenomar">: الاسم الشخصي *</label>
+                                    <input type="text" id="prenomar" name="prenomar" required/>
+                                </div>
+                            </div>
+                            <label class="adresse">Adresse : *</label>
+                            <textarea name="adresse" id="adresse" required></textarea>
+                            <label class="numtel">Numéro Téléphone : *</label>
+                            <input type="tel" id="numtel" name="numtel" required/>
+                            <label class="natio">Nationalité : *</label><br />
+                            <select class="form-control" id="natio" name="natio" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre nationalité</option>
+                                <option value="1">Marocain</option>
+                                <option value="2">Etranger</option>
+                            </select>
+                            <br />
+                            <br />
+                            <label class="genre">Genre : *</label>
+                            <br />
+                            <div class="row">
+                                <div class="col">
+                                    <label class="genre">Masculin : </label>
+                                    <input type="radio" id="genre" name="genre" value="1" checked required/>
+                                </div>
+                                <div class="col">
+                                    <label class="genre">Féminin : </label>
+                                    <input type="radio" id="genre" name="genre" value="2" required/>
+                                </div>
+                            </div>
+                            <label class="mgbac">Moyenne Générale : *</label>
+                            <input type="text" id="mgbac" name="mgbac" required/>
+                            <label class="nompere">Nom Père : *</label>
+                            <input type="text" id="nompere" name="nompere"required />
+                            <label class="prenompere">Prénom Père : *</label>
+                            <input type="text" id="prenompere" name="prenompere" required/>
+                            <label class="cinpere">CIN Père : *</label>
+                            <input type="text" id="cinpere" name="cinpere" required/>
+                            <label class="nommere">Nom Mère : *</label>
+                            <input type="text" id="nommere" name="nommere" required/>
+                            <label class="prenommere">Prénom Mère : *</label>
+                            <input type="text" id="prenommere" name="prenommere" required/>
+                            <label class="cinmere">CIN Mère : *</label>
+                            <input type="text" id="cinmere" name="cinmere" required/>
+                            <label class="ville">Ville : *</label><br />
+                            <select class="form-control" id="ville" name="ville" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre ville</option>
+                                @foreach (var items in AC.GetAllVille())
+                                {
+                                    <option value="@items.v_ID">@items.v_ville</option>
+                                }
+                            </select>
+                        </div>
+                        <input type="button" onclick="Step2()" class="action-button" value="Suivant" />
+                        <input style="display:none;" id="step2" type="button" name="next" class="next action-button" value="Suivant" />
+                        <input type="button" name="previous" class="previous action-button-previous" value="Précédent" />
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Remplissez votre choix :</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 3 - 4</h2>
+                                </div>
+                            </div>
+                            <label class="nvscolarite">Niveau Scolarité : *</label><br />
+                            <select class="form-control" id="nvscolarite" name="nvscolarite" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre niveau de scolarité</option>
+                                @foreach (var items in AC.GetAllScolarite())
+                                {
+                                    <option value="@items.s_ID">@items.s_scolarite</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="categorie">Catégorie : *</label><br />
+                            <select class="form-control" id="categorie" name="categorie" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre catégorie</option>
+                                @foreach (var items in AC.GetAllCategorie())
+                                {
+                                    <option value="@items.c_ID">@items.c_categorie</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="branche">Branche : *</label><br />
+                            <select class="form-control" id="branche" name="branche" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre branche</option>
+                                @foreach (var items in AC.GetAllBranche())
+                                {
+                                    <option value="@items.b_ID">@items.b_branche</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="ville1">Ville : *</label><br />
+                            <select class="form-control" id="ville1" name="ville1" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre ville</option>
+                                @foreach (var items in AC.GetAllVille())
+                                {
+                                    <option value="@items.v_ID">@items.v_ville</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="etablissement">Etablissement : *</label><br />
+                            <select class="form-control" id="etablissement" name="etablissement" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre établissement</option>
+                                @foreach (var items in AC.GetAllEtabl())
+                                {
+                                    <option value="@items.e_ID">@items.e_etablissement</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="typeformation">Type Formation : *</label><br />
+                            <select class="form-control" id="typeformation" name="typeformation" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre type de formation</option>
+                                @foreach (var items in AC.GetAllTypeFormations())
+                                {
+                                    <option value="@items.tf_ID">@items.tf_typeformation</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="nvformation">Niveau Formation : *</label><br />
+                            <select class="form-control" id="nvformation" name="nvformation" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre niveau de formation</option>
+                                @foreach (var items in AC.GetAllNvFormation())
+                                {
+                                    <option value="@items.nvf_ID">@items.nvf_nvformation</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="firstchoice">1er Choix : *</label><br />
+                            <select class="form-control" id="firstchoice" name="firstchoice" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre choix</option>
+                                @foreach (var items in AC.GetAllChoix())
+                                {
+                                    <option value="@items.ch_ID">@items.ch_choix</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="secondchoice">2ème Choix : *</label><br />
+                            <select class="form-control" id="secondchoice" name="secondchoice" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre choix</option>
+                                @foreach (var items in AC.GetAllChoix())
+                                {
+                                    <option value="@items.ch_ID">@items.ch_choix</option>
+                                }
+                            </select>
+                            <br />
+                            <label class="thirdchoice">3ème Choix : *</label><br />
+                            <select class="form-control" id="thirdchoice" name="thirdchoice" style="width:100%;" required>
+                                <option value="0" selected>Veuillez choisir votre choix</option>
+                                @foreach (var items in AC.GetAllChoix())
+                                {
+                                    <option value="@items.ch_ID">@items.ch_choix</option>
+                                }
+                            </select>
+                        </div>
+                        <input type="button" onclick="Step3()" class="action-button" value="S'inscrire" />
+                        <input style="display:none;" id="step3" type="button" name="next" class="next action-button" value="S'inscrire" />
+                        <input type="button" name="previous" class="previous action-button-previous" value="Précédent" />
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Finish:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 4 - 4</h2>
+                                </div>
+                            </div> <br><br>
+                            <h2 class="purple-text text-center"><strong>Succès !</strong></h2> <br>
+                            <div class="row justify-content-center">
+                                <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                            </div> <br><br>
+                            <div class="row justify-content-center">
+                                <div class="col-7 text-center">
+                                    <h5 class="purple-text text-center">Vous vous êtes inscrit avec succès</h5>
+                                    <h4 class="purple-text text-center">Voice votre login : <p id="cin"></p> et votre mot de passe : <p id="motpass"></p></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/custom/usersignup/js/script.js"></script>

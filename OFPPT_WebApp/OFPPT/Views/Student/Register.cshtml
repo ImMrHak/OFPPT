@@ -1,0 +1,105 @@
+﻿@using OFPPT.Controllers
+@{ 
+    StudentController SC = new StudentController();
+}
+@{
+    ViewBag.Title = "Re-Inscription | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "ADMIN" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- main wrapper start -->
+<div class="horizontal-main-wrapper">
+    @Html.Partial("_Header")
+    <!-- main content area start -->
+    <div class="main-content-inner">
+        <div class="container">
+            <form action="" method="POST">
+                <div class="row">
+                    <div class="col">
+                        <br />
+                        <label class="ville">Ville : *</label>
+                        <br />
+                        <select class="form-control" id="ville" name="ville" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre ville</option>
+                            @foreach (var items in SC.GetAllVille())
+                            {
+                                <option value="@items.v_ID">@items.v_ville</option>
+                            }
+                        </select>
+                        <label class="etablissement">Etablissement : *</label>
+                        <br />
+                        <select class="form-control" id="etablissement" name="etablissement" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre établissement</option>
+                            @foreach (var items in SC.GetAllEtabl())
+                            {
+                                <option value="@items.e_ID">@items.e_etablissement</option>
+                            }
+                        </select>
+                        <label class="typeformation">Niveau Formation : *</label>
+                        <select class="form-control" id="typeformation" name="typeformation" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre niveau de formation</option>
+                            @foreach (var items in SC.GetAllNvFormation())
+                            {
+                                <option value="@items.nvf_ID">@items.nvf_nvformation</option>
+                            }
+                        </select>
+                        <br />
+                    </div>
+                    <div class="col">
+                        <br />
+                        <label class="firstchoice">1er Choix : *</label>
+                        <br />
+                        <select class="form-control" id="firstchoice" name="firstchoice" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre choix</option>
+                            @foreach (var items in SC.GetAllChoix())
+                            {
+                                <option value="@items.ch_ID">@items.ch_choix</option>
+                            }
+                        </select>
+                        <br />
+                        <label class="secondchoice">2ème Choix : *</label>
+                        <br />
+                        <select class="form-control" id="secondchoice" name="secondchoice" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre choix</option>
+                            @foreach (var items in SC.GetAllChoix())
+                            {
+                                <option value="@items.ch_ID">@items.ch_choix</option>
+                            }
+                        </select>
+                        <br />
+                        <label class="thirdchoice">3ème Choix : *</label>
+                        <br />
+                        <select class="form-control" id="thirdchoice" name="thirdchoice" style="width:100%;">
+                            <option value="0" selected>Veuillez choisir votre choix</option>
+                            @foreach (var items in SC.GetAllChoix())
+                            {
+                                <option value="@items.ch_ID">@items.ch_choix</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <button type="button" onclick="SendRinscri()" class="btn btn-success mb-3" style="float:right;width:100%;">Valider La Re-Inscription</button>
+            </form>
+        </div>
+    </div>
+    <!-- main content area end -->
+    @Html.Partial("_Footer")
+</div>
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/studentregeister/js/script.js"></script>

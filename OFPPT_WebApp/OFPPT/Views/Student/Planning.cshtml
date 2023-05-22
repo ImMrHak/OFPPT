@@ -1,0 +1,82 @@
+﻿@model IEnumerable<OFPPT.Models.Planning_User>
+
+@{
+    ViewBag.Title = "Plan Epreuve | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "ADMIN" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- main wrapper start -->
+<div class="horizontal-main-wrapper">
+    @Html.Partial("_Header")
+    <!-- main content area start -->
+    <div class="main-content-inner">
+        <div class="container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Epreuve Regionnale
+                        </th>
+                        <th>
+                            Date Debut
+                        </th>
+                        <th>
+                            Date Fin
+                        </th>
+                        <th>
+                            Branche
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @try
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.epreuve)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.datedebut)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.datefin)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.branche)
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- main content area end -->
+    @Html.Partial("_Footer")
+</div>
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/studentplanning/js/script.js"></script>

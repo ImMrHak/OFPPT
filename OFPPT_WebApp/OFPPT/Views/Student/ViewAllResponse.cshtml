@@ -1,0 +1,91 @@
+﻿@model IEnumerable<OFPPT.Models.Message_User>
+
+@{
+    ViewBag.Title = "Plan Epreuve | OFPPT";
+    Layout = "~/Views/MainLayout.cshtml";
+    try
+    {
+        if (Session.Count == 0 || Session["Role"].ToString() == "ADMIN" || Session["Role"].ToString() == "DIRECTEUR")
+        {
+            Response.Redirect("~/Account/SignIn");
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+<!-- preloader area start -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- preloader area end -->
+<!-- main wrapper start -->
+<div class="horizontal-main-wrapper">
+    @Html.Partial("_Header")
+    <!-- main content area start -->
+    <div class="main-content-inner">
+        <div class="container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            CIN
+                        </th>
+                        <th>
+                            Nom
+                        </th>
+                        <th>
+                            Prenom
+                        </th>
+                        <th>
+                            Type De Demande
+                        </th>
+                        <th>
+                            Commentaire
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @try
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Session["CIN"]
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.nom)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.prenom)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.typedemande)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.commentaire)
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info" onclick="window.location.href = '/Student/AdminResponse/'+@item.id"><i class="ti-eye"></i></button>
+                                    <!--  data-toggle="modal" data-target="#ReceivedMessage" -->
+                                </td>
+                            </tr>
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- main content area end -->
+    @Html.Partial("_Footer")
+</div>
+<!--Page Related Scripts-->
+<script src="~/Assets/custom/studentreceivemessage/js/script.js"></script>
